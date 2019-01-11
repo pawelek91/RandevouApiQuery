@@ -70,6 +70,22 @@ namespace RandevouApiCommunication.Tests
                 Tattos = 2,
             };
             query.UpdateUserDetails(userId, detailsDto);
+
+            var resultDto = query.GetUserDetails(userId);
+            Assert.True(Equals(resultDto,detailsDto));
+        }
+
+        private bool Equals(UserDetailsDto source, UserDetailsDto target)
+        {
+            if (source == null || target == null)
+                throw new ArgumentOutOfRangeException("source or target is null");
+         
+
+                return
+                    source.City == target.City && source.EyesColor == target.EyesColor && source.HairColor == target.EyesColor
+                    && source.HairColor == target.HairColor && source.Heigth == target.Heigth && source.Region == target.Region
+                    && source.Tattos == target.Tattos && source.Width == target.Width;
+            
         }
     }
 }
