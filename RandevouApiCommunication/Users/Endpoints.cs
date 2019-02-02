@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RandevouApiCommunication.Users
 {
-    public class Endpoints
+    public static class Endpoints
     {
         public const string Users = "/api/Users";
         public const string GetAllUsers = Users;

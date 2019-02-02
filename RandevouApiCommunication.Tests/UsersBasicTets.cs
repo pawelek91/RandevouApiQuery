@@ -8,58 +8,64 @@ namespace RandevouApiCommunication.Tests
 {
     public class UsersBasicTets
     {
+        ApiCommunicationProvider communicationProvider;
+        IUsersQuery queryProvider;
+        public UsersBasicTets()
+        {
+            communicationProvider = ApiCommunicationProvider.GetInstance();
+            queryProvider = communicationProvider.GetQueryProvider<IUsersQuery>();
+        }
         [Fact]
         public void UserApiBasicTest()
         {
-            var query = new UsersQuery();
+
             #region Create user
-            var dto = new UserDto()
+            var dto = new UsersDto()
             {
                 BirthDate = new DateTime(DateTime.Now.AddYears(-30).Year, 12, 1),
                 DisplayName = "NowyUserek" + Guid.NewGuid().ToString().Substring(0, 10),
                 Gender = 'F',
                 Name = "NowyUserek" + Guid.NewGuid().ToString().Substring(0, 10),
             };
-            var result = query.CreateUser(dto);
+            var result = queryProvider.CreateUser(dto);
             Assert.True(result > 0);
             
-            var createdUser = query.GetUser(result);
+            var createdUser = queryProvider.GetUser(result);
             Assert.True(createdUser.Name.Equals(dto.Name, StringComparison.CurrentCultureIgnoreCase));
             #endregion
 
             #region Delete user
-            query.DeleteUser(createdUser.Id.Value);
-            var resp = query.GetUser(result);
+            queryProvider.DeleteUser(createdUser.Id.Value);
+            var resp = queryProvider.GetUser(result);
             Assert.Null(resp);
             #endregion
 
             #region Add and Update
             dto.Name = "NowyUserek" + Guid.NewGuid().ToString().Substring(0, 10);
-            result = query.CreateUser(dto);
-            createdUser = query.GetUser(result);
+            result = queryProvider.CreateUser(dto);
+            createdUser = queryProvider.GetUser(result);
             
             dto.Gender = 'M';
             dto.Id = result;
-            query.UpdateUser(dto);
-            var updatedUser = query.GetUser(result);
+            queryProvider.UpdateUser(dto);
+            var updatedUser = queryProvider.GetUser(result);
             Assert.True(updatedUser.Gender == dto.Gender);
             Assert.True(updatedUser.Id == result);
 
-            query.DeleteUser(updatedUser.Id.Value);
+            queryProvider.DeleteUser(updatedUser.Id.Value);
             #endregion
         }
         [Fact]
         public void UserDetailsTest()
         {
-            var dto = new UserDto()
+            var dto = new UsersDto()
             {
                 BirthDate = new DateTime(DateTime.Now.AddYears(-30).Year, 12, 1),
                 DisplayName = "NowyUserek" + Guid.NewGuid().ToString().Substring(0, 10),
                 Gender = 'F',
                 Name = "NowyUserek" + Guid.NewGuid().ToString().Substring(0, 10),
             };
-            var query = new UsersQuery();
-            var userId = query.CreateUser(dto);
+            var userId = queryProvider.CreateUser(dto);
 
             var detailsDto = new UserDetailsDto()
             {
@@ -69,9 +75,9 @@ namespace RandevouApiCommunication.Tests
                 Width = 10,
                 Tattos = 2,
             };
-            query.UpdateUserDetails(userId, detailsDto);
+            queryProvider.UpdateUserDetails(userId, detailsDto);
 
-            var resultDto = query.GetUserDetails(userId);
+            var resultDto = queryProvider.GetUserDetails(userId);
             Assert.True(Equals(resultDto,detailsDto));
         }
 

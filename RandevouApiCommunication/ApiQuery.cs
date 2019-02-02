@@ -7,12 +7,13 @@ using Newtonsoft.Json;
 
 namespace RandevouApiCommunication
 {
-    public abstract class ApiQuery
+    internal abstract class ApiQuery
     {
         private static string endpoint = ApiConfig.ApiEndpoint;
 
-        public static StringContent AsJson(object o)
+        private  StringContent AsJson(object o)
              => new StringContent(JsonConvert.SerializeObject(o), Encoding.UTF8, "application/json");
+
 
         protected static string BuildAddress(string path, string id = "")
         {
@@ -32,7 +33,7 @@ namespace RandevouApiCommunication
             string endpoint = BuildAddress(address);
             using (HttpClient client = new HttpClient())
             {
-                var json = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
+                var json = AsJson(dto);
                 var postReult = client.PostAsync(endpoint, json).Result;
                 if (!postReult.IsSuccessStatusCode)
                     throw new HttpRequestException(string.Format("Query on {0} not succeeded",endpoint));
@@ -49,9 +50,21 @@ namespace RandevouApiCommunication
             string endpoint = BuildAddress(address, id);
             using (HttpClient client = new HttpClient())
             {
-                var json = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
+                var json = AsJson(dto);
                 var postReult = client.PatchAsync(endpoint, json).Result;
                 if (!postReult.IsSuccessStatusCode)
+                    throw new HttpRequestException(string.Format("Query on {0} not succeeded", endpoint));
+            }
+        }
+
+        protected void Set<T>(string address, T dto, string id = "")
+        {
+            string endpoint = BuildAddress(address, id);
+            using (HttpClient client = new HttpClient())
+            {
+                var json = AsJson(dto);
+                var result = client.PutAsync(endpoint, json).Result;
+                if(!result.IsSuccessStatusCode)
                     throw new HttpRequestException(string.Format("Query on {0} not succeeded", endpoint));
             }
         }
