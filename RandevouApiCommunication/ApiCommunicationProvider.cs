@@ -12,6 +12,7 @@ namespace RandevouApiCommunication
         {
             ApuQueriesIOCcontainer.Register<Users.IUsersQuery, Users.UsersQuery>();
             ApuQueriesIOCcontainer.Register<Friendships.IUserFriendshipQuery, Friendships.UserFriendshipQuery>();
+            ApuQueriesIOCcontainer.Register<Messages.IMessagesQuery, Messages.MessagesQuery>();
         }
 
         public static ApiCommunicationProvider GetInstance()

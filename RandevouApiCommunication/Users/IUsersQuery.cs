@@ -13,6 +13,5 @@ namespace RandevouApiCommunication.Users
         void DeleteUser(int id);
         void UpdateUser(UsersDto dto);
         void UpdateUserDetails(int userId, UserDetailsDto dto);
-
     }
 }

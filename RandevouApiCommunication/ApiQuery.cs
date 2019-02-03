@@ -14,6 +14,8 @@ namespace RandevouApiCommunication
         private  StringContent AsJson(object o)
              => new StringContent(JsonConvert.SerializeObject(o), Encoding.UTF8, "application/json");
 
+        private TResult FromJson<TResult>(string queryResult)
+            => JsonConvert.DeserializeObject<TResult>(queryResult);
 
         protected static string BuildAddress(string path, string id = "")
         {
@@ -28,7 +30,7 @@ namespace RandevouApiCommunication
             return result;
         }
 
-        protected int Create<T>(string address, T dto)
+        protected int Post<T>(string address, T dto)
         {
             string endpoint = BuildAddress(address);
             using (HttpClient client = new HttpClient())
@@ -45,6 +47,22 @@ namespace RandevouApiCommunication
             }
         }
 
+        protected TResult PostSpecific<TResult, TQueryDto>(string address, TQueryDto dto)
+        {
+            string endpoint = BuildAddress(address);
+            using (HttpClient client = new HttpClient())
+            {
+                var json = AsJson(dto);
+                var postReult = client.PostAsync(endpoint, json).Result;
+
+                if (!postReult.IsSuccessStatusCode)
+                    throw new HttpRequestException(string.Format("Query on {0} not succeeded", endpoint));
+
+                var resultToParse = postReult.Content.ReadAsStringAsync().Result;
+                var result = FromJson<TResult>(resultToParse);
+                return result;
+            }
+        }
         protected void Update<T>(string address, T dto, string id = "")
         {
             string endpoint = BuildAddress(address, id);

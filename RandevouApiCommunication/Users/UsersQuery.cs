@@ -21,7 +21,7 @@ namespace RandevouApiCommunication.Users
             => Query<UsersDto>(Endpoints.GetUser, id.ToString()).Result;
 
         public int CreateUser(UsersDto dto)
-            => Create(Endpoints.PostUser, dto);
+            => Post(Endpoints.PostUser, dto);
 
         public void DeleteUser(int id)
             => Delete(Endpoints.DeleteUser, id);

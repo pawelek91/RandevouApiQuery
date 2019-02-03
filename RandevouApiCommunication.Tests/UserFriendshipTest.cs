@@ -9,25 +9,22 @@ using Xunit;
 namespace RandevouApiCommunication.Tests
 {
     
-    public class UserFriendshipTest
+    public class UserFriendshipTest : CommonTest
     {
 
         private const string Accept = nameof(Accept);
         private const string Delete = nameof(Delete);
 
-        ApiCommunicationProvider communicationProvider;
-        IUsersQuery usersQueryProvider;
         IUserFriendshipQuery friendshipsQueryProvider;
 
-        [Fact]
-        public void TestFriendshipsRequest()
+        public UserFriendshipTest():base()
         {
-            communicationProvider = ApiCommunicationProvider.GetInstance();
-
-            usersQueryProvider = communicationProvider.GetQueryProvider<IUsersQuery>();
-            friendshipsQueryProvider = communicationProvider.GetQueryProvider<IUserFriendshipQuery>();
-
-            var users = CreateUsers();
+            friendshipsQueryProvider = GetQueryProvider<IUserFriendshipQuery>();
+        }
+        [Fact]
+        public void TestFriendshipsRequest() 
+        {
+            var users = GenerateUsers(4);
 
             Assert.True(friendshipsQueryProvider.GetFriends(users[0]).Length==0);
             friendshipsQueryProvider.PostFriendshipInvitation(new FriendshipSendRequestDto() { FromUserId = users[0], ToUserId = users[1] });
@@ -100,40 +97,6 @@ namespace RandevouApiCommunication.Tests
             Assert.True(friendshipsQueryProvider.GetFriends(users[1]).Length == 1);
         }
 
-        private string CreateUserName()
-            => "NowyUserek" + Guid.NewGuid().ToString().Substring(0, 10);
-
-        private int[] CreateUsers()
-        {
-            var query = usersQueryProvider;
-
-            var name1 = CreateUserName();
-            var dto = new UsersDto()
-            {
-                BirthDate = new DateTime(DateTime.Now.AddYears(-30).Year, 12, 1),
-                DisplayName = name1,
-                Gender = 'F',
-                Name = name1,
-            };
-       
-            var userId = query.CreateUser(dto);
-
-            var name2 = CreateUserName();
-            dto.Name = name2;
-            var userId2 = query.CreateUser(dto);
-
-
-
-            var name3 = CreateUserName();
-            dto.Name = name3;
-            var userId3 = query.CreateUser(dto);
-
-           
-            var name4 = CreateUserName();
-            dto.Name = name4;
-            var userId4 = query.CreateUser(dto);
-
-            return new int[] { userId, userId2, userId3, userId4 };
-        }
+      
     }
 }
