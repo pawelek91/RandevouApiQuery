@@ -16,7 +16,7 @@ namespace RandevouApiCommunication.Friendships
             => Query<string[]>(Endpoints.GetPossibleAction).Result;
 
         public void PostFriendshipInvitation(FriendshipSendRequestDto dto)
-            => Create(Endpoints.SendInvitation, dto);
+            => Set(Endpoints.SendInvitation, dto);
 
         public void SetFriendshipStatusAction(UpdateFriendshipStatusDto dto)
             => Set(Endpoints.SetFriendshipStatus, dto);
