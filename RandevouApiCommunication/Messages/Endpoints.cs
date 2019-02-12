@@ -10,5 +10,7 @@ namespace RandevouApiCommunication.Messages
         public const string Conversations = Messages + "/Conversation/{id}";
         public const string Speakers = Messages + "/{id}/Speakers";
         public const string WholeConversation = "/api/Messages/Conversation";
+        public const string MessageMarkRead = Messages + "/MarkRead";
+        public const string MessageMarkUnread = Messages + "/MarkUnread";
     }
 }

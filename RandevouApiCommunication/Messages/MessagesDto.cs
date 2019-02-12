@@ -6,12 +6,14 @@ namespace RandevouApiCommunication.Messages
 {
     public class MessageDto
     {
+        public int MessageId { get; set; }
         public int SenderId { get; set; }
         public int ReceiverId { get; set; }
         public string Content { get; set; }
         public string SenderName { get; set; }
         public string ReceiverName { get; set; }
         public DateTime SendDate { get; set; }
+        public bool IsRead { get; set; }
     }
 
     public class RequestMessagesDto
@@ -29,5 +31,11 @@ namespace RandevouApiCommunication.Messages
         public bool IsRead { get; set; }
         public string MessageShortContent { get; set; }
         public DateTime MessageDate { get; set; }
+    }
+
+    public class MessageMarkDto
+    {
+        public string MessageId { get; set; }
+        public string OwnerId { get; set; }
     }
 }

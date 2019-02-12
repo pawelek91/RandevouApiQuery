@@ -10,5 +10,7 @@ namespace RandevouApiCommunication.Messages
         int CreateMessage(MessageDto dto);
         IEnumerable<MessageDto> GetConversation(RequestMessagesDto dto);
         IEnumerable<LastMessagesDto> GetLastMessages(int userId);
+        void MarkAsRead(MessageMarkDto dto);
+        void MarkAsUnread(MessageMarkDto dto);
     }
 }

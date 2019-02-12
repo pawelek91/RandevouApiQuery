@@ -17,5 +17,11 @@ namespace RandevouApiCommunication.Messages
 
         public int[] GetSpeakers(int userId)
         => Query<int[]>(Endpoints.Speakers, userId.ToString()).Result;
+
+        public void MarkAsRead(MessageMarkDto dto)
+        => Set<MessageMarkDto>(Endpoints.MessageMarkRead, dto);
+
+        public void MarkAsUnread(MessageMarkDto dto)
+        => Set<MessageMarkDto>(Endpoints.MessageMarkUnread, dto);
     }
 }
