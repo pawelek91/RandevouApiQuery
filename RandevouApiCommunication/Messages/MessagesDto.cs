@@ -9,6 +9,9 @@ namespace RandevouApiCommunication.Messages
         public int SenderId { get; set; }
         public int ReceiverId { get; set; }
         public string Content { get; set; }
+        public string SenderName { get; set; }
+        public string ReceiverName { get; set; }
+        public DateTime SendDate { get; set; }
     }
 
     public class RequestMessagesDto
