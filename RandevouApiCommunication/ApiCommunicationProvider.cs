@@ -10,9 +10,10 @@ namespace RandevouApiCommunication
         
         private ApiCommunicationProvider()
         {
-            ApuQueriesIOCcontainer.Register<Users.IUsersQuery, Users.UsersQuery>();
-            ApuQueriesIOCcontainer.Register<Friendships.IUserFriendshipQuery, Friendships.UserFriendshipQuery>();
-            ApuQueriesIOCcontainer.Register<Messages.IMessagesQuery, Messages.MessagesQuery>();
+            ApiQueriesIOCcontainer.Register<Users.IUsersQuery, Users.UsersQuery>();
+            ApiQueriesIOCcontainer.Register<Friendships.IUserFriendshipQuery, Friendships.UserFriendshipQuery>();
+            ApiQueriesIOCcontainer.Register<Messages.IMessagesQuery, Messages.MessagesQuery>();
+            ApiQueriesIOCcontainer.Register<UsersFinder.IUserFinderQuery, UsersFinder.UserFinderQuery>();
         }
 
         public static ApiCommunicationProvider GetInstance()
@@ -24,7 +25,7 @@ namespace RandevouApiCommunication
         }
 
         public TConract GetQueryProvider<TConract>()
-            => ApuQueriesIOCcontainer.Resolve<TConract>();
+            => ApiQueriesIOCcontainer.Resolve<TConract>();
 
 
     }

@@ -19,13 +19,13 @@ namespace RandevouApiCommunication.Tests
         protected TContract GetQueryProvider<TContract>()
             => communicationProvider.GetQueryProvider<TContract>();
 
-        protected int[] GenerateUsers(int count)
+        protected int[] GenerateUsers(int count, string defaultName = "NowyUserek")
         {
             List<int> result = new List<int>();
 
             for (int i=0;i< count;i++)
             {
-                string name = "NowyUserek" + Guid.NewGuid().ToString().Substring(0, 10);
+                string name = defaultName + Guid.NewGuid().ToString().Substring(0, 10);
                 var dto = new UsersDto()
                 {
                     BirthDate = new DateTime(DateTime.Now.AddYears(-30).Year, 12, 1),

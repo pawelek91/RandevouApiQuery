@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RandevouApiCommunication
 {
-    internal static class ApuQueriesIOCcontainer
+    internal static class ApiQueriesIOCcontainer
     {
         static readonly Dictionary<Type, Type> Container = new Dictionary<Type, Type>();
 
