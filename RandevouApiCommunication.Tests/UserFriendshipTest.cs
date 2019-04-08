@@ -26,11 +26,11 @@ namespace RandevouApiCommunication.Tests
         {
             var users = GenerateUsers(4);
 
-            Assert.True(friendshipsQueryProvider.GetFriends(users[0]).Length==0);
-            friendshipsQueryProvider.PostFriendshipInvitation(new FriendshipSendRequestDto() { FromUserId = users[0], ToUserId = users[1] });
+            Assert.True(friendshipsQueryProvider.GetFriends(users[0], authDto).Length==0);
+            friendshipsQueryProvider.PostFriendshipInvitation(new FriendshipSendRequestDto() { FromUserId = users[0], ToUserId = users[1] }, authDto);
 
-            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[1]).Length == 1);
-            Assert.True(friendshipsQueryProvider.GetFriends(users[0]).Length == 0);
+            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[1], authDto).Length == 1);
+            Assert.True(friendshipsQueryProvider.GetFriends(users[0], authDto).Length == 0);
 
             Assert.ThrowsAny<Exception>(() => //user0 wyslal do user1, wiec to user1 musi zaakceptowac
             {
@@ -40,7 +40,7 @@ namespace RandevouApiCommunication.Tests
                         FromUserId = users[0],
                         ToUserId = users[1],
                         Action = Accept
-                    });
+                    }, authDto);
             });
 
             friendshipsQueryProvider.SetFriendshipStatusAction(
@@ -49,15 +49,15 @@ namespace RandevouApiCommunication.Tests
                       FromUserId = users[1],
                       ToUserId = users[0],
                       Action = Accept
-                  });
+                  }, authDto);
 
-            Assert.True(friendshipsQueryProvider.GetFriends(users[0]).Length == 1);
-            Assert.True(friendshipsQueryProvider.GetFriends(users[1]).Length == 1);
-            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[1]).Length == 0);
+            Assert.True(friendshipsQueryProvider.GetFriends(users[0], authDto).Length == 1);
+            Assert.True(friendshipsQueryProvider.GetFriends(users[1], authDto).Length == 1);
+            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[1], authDto).Length == 0);
 
-            friendshipsQueryProvider.PostFriendshipInvitation(new FriendshipSendRequestDto() { FromUserId = users[2], ToUserId = users[1] });
-            friendshipsQueryProvider.PostFriendshipInvitation(new FriendshipSendRequestDto() { FromUserId = users[3], ToUserId = users[1] });
-            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[1]).Length == 2);
+            friendshipsQueryProvider.PostFriendshipInvitation(new FriendshipSendRequestDto() { FromUserId = users[2], ToUserId = users[1] }, authDto);
+            friendshipsQueryProvider.PostFriendshipInvitation(new FriendshipSendRequestDto() { FromUserId = users[3], ToUserId = users[1] }, authDto);
+            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[1], authDto).Length == 2);
 
             friendshipsQueryProvider.SetFriendshipStatusAction(
                  new UpdateFriendshipStatusDto()
@@ -65,7 +65,7 @@ namespace RandevouApiCommunication.Tests
                      FromUserId = users[1],
                      ToUserId = users[2],
                      Action = Accept
-                 });
+                 }, authDto);
 
 
             friendshipsQueryProvider.SetFriendshipStatusAction(
@@ -74,15 +74,15 @@ namespace RandevouApiCommunication.Tests
                      FromUserId = users[1],
                      ToUserId = users[3],
                      Action = Delete
-                 });
+                 }, authDto);
 
-            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[1]).Length == 0);
-            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[2]).Length == 0);
-            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[3]).Length == 0);
+            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[1], authDto).Length == 0);
+            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[2], authDto).Length == 0);
+            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[3], authDto).Length == 0);
 
-            Assert.True(friendshipsQueryProvider.GetFriends(users[1]).Length == 2);
-            Assert.True(friendshipsQueryProvider.GetFriends(users[2]).Length == 1);
-            Assert.True(friendshipsQueryProvider.GetFriends(users[3]).Length == 0);
+            Assert.True(friendshipsQueryProvider.GetFriends(users[1], authDto).Length == 2);
+            Assert.True(friendshipsQueryProvider.GetFriends(users[2], authDto).Length == 1);
+            Assert.True(friendshipsQueryProvider.GetFriends(users[3], authDto).Length == 0);
 
 
             friendshipsQueryProvider.SetFriendshipStatusAction(
@@ -91,10 +91,10 @@ namespace RandevouApiCommunication.Tests
                FromUserId = users[2],
                ToUserId = users[1],
                Action = Delete
-           });
-            Assert.True(friendshipsQueryProvider.GetFriends(users[2]).Length == 0);
+           }, authDto);
+            Assert.True(friendshipsQueryProvider.GetFriends(users[2], authDto).Length == 0);
 
-            Assert.True(friendshipsQueryProvider.GetFriends(users[1]).Length == 1);
+            Assert.True(friendshipsQueryProvider.GetFriends(users[1], authDto).Length == 1);
         }
 
       

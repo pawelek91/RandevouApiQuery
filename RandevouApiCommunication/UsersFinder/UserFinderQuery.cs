@@ -4,15 +4,8 @@ namespace RandevouApiCommunication.UsersFinder
 {
 	internal class UserFinderQuery : ApiQuery, IUserFinderQuery
     {
-        public int[] FindUsers(UsersFinderDto dto, ApiAuthDto authDto = null)
-        {
-            if(authDto != null)
-            {
-                auth = GetAuthentitaceUserKey(authDto.UserName, authDto.Password);
-            }
-
-            var result = PostSpecific<int[], UsersFinderDto>(Endpoints.PostUserFind, dto, auth);
-            return result;
-        }
+        public int[] FindUsers(UsersFinderDto dto, ApiAuthDto authDto)
+            => PostSpecific<int[], UsersFinderDto>
+            (Endpoints.PostUserFind, dto, GetAuthentitaceUserKey(authDto));
     }
 }

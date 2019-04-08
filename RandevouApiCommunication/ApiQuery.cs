@@ -133,10 +133,13 @@ namespace RandevouApiCommunication
             }
         }
 
-        public AuthenticationHeaderValue GetAuthentitaceUserKey(string username, string password)
+        public AuthenticationHeaderValue GetAuthentitaceUserKey(ApiAuthDto auth)
         {
+            if (auth == null)
+                return null;
+
             var authQuery = ApiCommunicationProvider.GetInstance().GetQueryProvider<IAuthenticationQuery>();
-            var authKey = authQuery.GetLoginAuthKey(username, password);
+            var authKey = authQuery.GetLoginAuthKey(auth.UserName, auth.Password);
             return new AuthenticationHeaderValue("Basic", authKey);
         }
 

@@ -6,7 +6,7 @@ using Xunit;
 
 namespace RandevouApiCommunication.Tests
 {
-    public class UsersBasicTets
+    public class UsersBasicTets : CommonTest
     {
         ApiCommunicationProvider communicationProvider;
         IUsersQuery queryProvider;
@@ -30,29 +30,29 @@ namespace RandevouApiCommunication.Tests
             var result = queryProvider.CreateUser(dto);
             Assert.True(result > 0);
             
-            var createdUser = queryProvider.GetUser(result);
+            var createdUser = queryProvider.GetUser(result, authDto);
             Assert.True(createdUser.Name.Equals(dto.Name, StringComparison.CurrentCultureIgnoreCase));
             #endregion
 
             #region Delete user
-            queryProvider.DeleteUser(createdUser.Id.Value);
-            var resp = queryProvider.GetUser(result);
+            queryProvider.DeleteUser(createdUser.Id.Value, authDto);
+            var resp = queryProvider.GetUser(result, authDto);
             Assert.Null(resp);
             #endregion
 
             #region Add and Update
             dto.Name = "NowyUserek" + Guid.NewGuid().ToString().Substring(0, 10);
             result = queryProvider.CreateUser(dto);
-            createdUser = queryProvider.GetUser(result);
+            createdUser = queryProvider.GetUser(result, authDto);
             
             dto.Gender = 'M';
             dto.Id = result;
-            queryProvider.UpdateUser(dto);
-            var updatedUser = queryProvider.GetUser(result);
+            queryProvider.UpdateUser(dto, authDto);
+            var updatedUser = queryProvider.GetUser(result, authDto);
             Assert.True(updatedUser.Gender == dto.Gender);
             Assert.True(updatedUser.Id == result);
 
-            queryProvider.DeleteUser(updatedUser.Id.Value);
+            queryProvider.DeleteUser(updatedUser.Id.Value, authDto);
             #endregion
         }
         [Fact]
@@ -75,9 +75,9 @@ namespace RandevouApiCommunication.Tests
                 Width = 10,
                 Tattos = 2,
             };
-            queryProvider.UpdateUserDetails(userId, detailsDto);
+            queryProvider.UpdateUserDetails(userId, detailsDto, authDto);
 
-            var resultDto = queryProvider.GetUserDetails(userId);
+            var resultDto = queryProvider.GetUserDetails(userId, authDto);
             Assert.True(Equals(resultDto,detailsDto));
         }
 

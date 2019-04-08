@@ -26,29 +26,29 @@ namespace RandevouApiCommunication.Tests
                 SenderId = users[0],
                 ReceiverId = users[1],
                 Content = "hi",
-            });
+            },authDto);
 
             messagesQueryProvider.CreateMessage(new MessageDto
             {
                 SenderId = users[0],
                 ReceiverId = users[2],
                 Content = "hi",
-            });
+            }, authDto);
             messagesQueryProvider.CreateMessage(new MessageDto
             {
                 SenderId = users[0],
                 ReceiverId = users[2],
                 Content = "sup",
-            });
+            }, authDto);
 
-            var uniqueReceivers = messagesQueryProvider.GetLastMessages(users[0]);
+            var uniqueReceivers = messagesQueryProvider.GetLastMessages(users[0], authDto);
 
             messagesQueryProvider.CreateMessage(new MessageDto
             {
                 SenderId = users[2],
                 ReceiverId = users[0],
                 Content = "hi buddy",
-            });
+            }, authDto);
 
             Assert.True(uniqueReceivers.Count() == 2);
 
@@ -58,7 +58,7 @@ namespace RandevouApiCommunication.Tests
                 SecondUserId = users[2],
             };
 
-            var conversation = messagesQueryProvider.GetConversation(getConversationDto).ToArray();
+            var conversation = messagesQueryProvider.GetConversation(getConversationDto, authDto).ToArray();
 
             Assert.True(conversation.Count(x => x.SenderId == users[0]) == 2);
             Assert.True(conversation.Count(x => x.SenderId == users[2]) == 1);
@@ -78,7 +78,7 @@ namespace RandevouApiCommunication.Tests
 
             Assert.True(!conversation.Any(x => x.IsRead));
 
-            messagesQueryProvider.MarkAsRead(firstMessageMarkReadDto);
+            messagesQueryProvider.MarkAsRead(firstMessageMarkReadDto, authDto);
 
             var wrongDto = new MessageMarkDto
             {
@@ -88,16 +88,16 @@ namespace RandevouApiCommunication.Tests
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                messagesQueryProvider.MarkAsRead(wrongDto);
+                messagesQueryProvider.MarkAsRead(wrongDto, authDto);
             });
 
-            messagesQueryProvider.MarkAsRead(secondMessageMarkReadDto);
+            messagesQueryProvider.MarkAsRead(secondMessageMarkReadDto, authDto);
 
-            conversation = messagesQueryProvider.GetConversation(getConversationDto).ToArray();
+            conversation = messagesQueryProvider.GetConversation(getConversationDto, authDto).ToArray();
             Assert.True(conversation.Count(x => x.IsRead) == 2);
 
-            messagesQueryProvider.MarkAsUnread(secondMessageMarkReadDto);
-            conversation = messagesQueryProvider.GetConversation(getConversationDto).ToArray();
+            messagesQueryProvider.MarkAsUnread(secondMessageMarkReadDto, authDto);
+            conversation = messagesQueryProvider.GetConversation(getConversationDto, authDto).ToArray();
             Assert.True(conversation.Count(x => x.IsRead) == 1);
         }
     }

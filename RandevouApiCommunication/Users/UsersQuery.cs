@@ -6,33 +6,43 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using RandevouApiCommunication.Authentication;
 
 namespace RandevouApiCommunication.Users
 {
     internal class UsersQuery : ApiQuery, IUsersQuery
     {
-        public IEnumerable<UsersDto> GetUsersLists()
-            => Query<IEnumerable<UsersDto>>(Endpoints.GetAllUsers).Result;
+        public IEnumerable<UsersDto> GetUsersLists(ApiAuthDto authDto)
+            => Query<IEnumerable<UsersDto>>
+            (Endpoints.GetAllUsers, auth: GetAuthentitaceUserKey(authDto)).Result;
+        
 
-        public UserDetailsDto GetUserWithDetails(int id)
-            => Query<UserDetailsDto>(Endpoints.GetUser, id.ToString()).Result;
 
-        public UsersDto GetUser(int id)
-            => Query<UsersDto>(Endpoints.GetUser, id.ToString()).Result;
+        public UserDetailsDto GetUserWithDetails(int id, ApiAuthDto authDto)
+            => Query<UserDetailsDto>
+            (Endpoints.GetUser, id.ToString(), GetAuthentitaceUserKey(authDto)).Result;
+        
+
+        public UsersDto GetUser(int id, ApiAuthDto authDto)
+            => Query<UsersDto>
+            (Endpoints.GetUser, id.ToString(), GetAuthentitaceUserKey(authDto)).Result;
+        
+
 
         public int CreateUser(UsersDto dto)
             => Post(Endpoints.PostUser, dto);
 
-        public void DeleteUser(int id)
-            => Delete(Endpoints.DeleteUser, id);
+        public void DeleteUser(int id, ApiAuthDto authDto)
+            => Delete(Endpoints.DeleteUser, id, GetAuthentitaceUserKey(authDto));
 
-        public void UpdateUser(UsersDto dto)
-            =>  Update(Endpoints.PatchUser, dto);
+        public void UpdateUser(UsersDto dto, ApiAuthDto authDto)
+            =>  Update(Endpoints.PatchUser, dto,string.Empty, GetAuthentitaceUserKey(authDto));
 
-        public UserDetailsDto GetUserDetails(int userId)
-            => Query<UserDetailsDto>(Endpoints.GetUserDetails, userId.ToString()).Result;
+        public UserDetailsDto GetUserDetails(int userId, ApiAuthDto authDto)
+            => Query<UserDetailsDto>
+            (Endpoints.GetUserDetails, userId.ToString(), GetAuthentitaceUserKey(authDto)).Result;
 
-        public void UpdateUserDetails(int userId, UserDetailsDto dto)
-            => Update(Endpoints.PutUserDetails, dto, userId.ToString());
+        public void UpdateUserDetails(int userId, UserDetailsDto dto, ApiAuthDto authDto)
+            => Update(Endpoints.PutUserDetails, dto, userId.ToString(),GetAuthentitaceUserKey(authDto));
     }
 }
