@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using RandevouApiCommunication.Authentication;
 
 namespace RandevouApiCommunication
 {
     internal abstract class ApiQuery
     {
         private static string endpoint = ApiConfig.ApiEndpoint;
+        protected AuthenticationHeaderValue auth = null;
 
         private  StringContent AsJson(object o)
              => new StringContent(JsonConvert.SerializeObject(o), Encoding.UTF8, "application/json");
 
         private TResult FromJson<TResult>(string queryResult)
-            => JsonConvert.DeserializeObject<TResult>(queryResult);
+            =>  JsonConvert.DeserializeObject<TResult>(queryResult);
 
         protected static string BuildAddress(string path, string id = "")
         {
@@ -30,11 +33,13 @@ namespace RandevouApiCommunication
             return result;
         }
 
-        protected int Post<T>(string address, T dto)
+        protected int Post<T>(string address, T dto, AuthenticationHeaderValue auth = null )
         {
+            
             string endpoint = BuildAddress(address);
             using (HttpClient client = new HttpClient())
             {
+                SetAuth(client, auth);
                 var json = AsJson(dto);
                 var postReult = client.PostAsync(endpoint, json).Result;
                 if (!postReult.IsSuccessStatusCode)
@@ -47,11 +52,12 @@ namespace RandevouApiCommunication
             }
         }
 
-        protected TResult PostSpecific<TResult, TQueryDto>(string address, TQueryDto dto)
+        protected TResult PostSpecific<TResult, TQueryDto>(string address, TQueryDto dto, AuthenticationHeaderValue auth = null)
         {
             string endpoint = BuildAddress(address);
             using (HttpClient client = new HttpClient())
             {
+                SetAuth(client, auth);
                 var json = AsJson(dto);
                 var postReult = client.PostAsync(endpoint, json).Result;
 
@@ -59,15 +65,20 @@ namespace RandevouApiCommunication
                     throw new HttpRequestException(string.Format("Query on {0} not succeeded", endpoint));
 
                 var resultToParse = postReult.Content.ReadAsStringAsync().Result;
-                var result = FromJson<TResult>(resultToParse);
-                return result;
+
+                if(IsSimpleType(typeof(TResult)))
+                {
+                    return resultToParse is TResult t ? t: throw new HttpRequestException("wrong response which could not be parsed");
+                }
+                else return FromJson<TResult>(resultToParse);
             }
         }
-        protected void Update<T>(string address, T dto, string id = "")
+        protected void Update<T>(string address, T dto, string id = "", AuthenticationHeaderValue auth = null)
         {
             string endpoint = BuildAddress(address, id);
             using (HttpClient client = new HttpClient())
             {
+                SetAuth(client, auth);
                 var json = AsJson(dto);
                 var postReult = client.PatchAsync(endpoint, json).Result;
                 if (!postReult.IsSuccessStatusCode)
@@ -75,11 +86,12 @@ namespace RandevouApiCommunication
             }
         }
 
-        protected void Set<T>(string address, T dto, string id = "")
+        protected void Set<T>(string address, T dto, string id = "", AuthenticationHeaderValue auth = null)
         {
             string endpoint = BuildAddress(address, id);
             using (HttpClient client = new HttpClient())
             {
+                SetAuth(client, auth);
                 var json = AsJson(dto);
                 var result = client.PutAsync(endpoint, json).Result;
                 if(!result.IsSuccessStatusCode)
@@ -87,21 +99,23 @@ namespace RandevouApiCommunication
             }
         }
 
-        protected void Delete(string address, int id)
+        protected void Delete(string address, int id, AuthenticationHeaderValue auth = null)
         {
             string endpoint = BuildAddress(address, id.ToString());
             using (HttpClient client = new HttpClient())
             {
+                SetAuth(client, auth);
                 var deleteResult = client.DeleteAsync(endpoint);
                 if (!deleteResult.Result.IsSuccessStatusCode)
                     throw new HttpRequestException(string.Format("Query on {0} not succeeded", endpoint));
             }
         }
 
-        protected async Task<T> Query<T>(string address, string id = null) where T : class
+        protected async Task<T> Query<T>(string address, string id = null, AuthenticationHeaderValue auth = null) where T : class
         {
             using (HttpClient client = new HttpClient())
             {
+                SetAuth(client, auth);
                 string endpoint = BuildAddress(address, id);
                 var response = await client.GetAsync(endpoint);
 
@@ -119,7 +133,24 @@ namespace RandevouApiCommunication
             }
         }
 
-     
+        public AuthenticationHeaderValue GetAuthentitaceUserKey(string username, string password)
+        {
+            var authQuery = ApiCommunicationProvider.GetInstance().GetQueryProvider<IAuthenticationQuery>();
+            var authKey = authQuery.GetLoginAuthKey(username, password);
+            return new AuthenticationHeaderValue("Basic", authKey);
+        }
+
+        private void SetAuth(HttpClient client, AuthenticationHeaderValue auth = null)
+        {
+            if (auth != null)
+                client.DefaultRequestHeaders.Authorization = auth;
+        }
+
+        private bool IsSimpleType(Type type)
+        {
+            return type.IsPrimitive
+              || type.Equals(typeof(string));
+        }
     }
 
     public static class HttpClientExtensions

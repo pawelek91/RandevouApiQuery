@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using RandevouApiCommunication.Authentication;
 using RandevouApiCommunication.Users;
 
 namespace RandevouApiCommunication.Tests
@@ -9,11 +10,17 @@ namespace RandevouApiCommunication.Tests
     {
         private ApiCommunicationProvider communicationProvider;
         protected IUsersQuery usersQueryProvider;
+        protected ApiAuthDto authDto;
 
         public CommonTest()
         {
             communicationProvider = ApiCommunicationProvider.GetInstance();
             usersQueryProvider = communicationProvider.GetQueryProvider<IUsersQuery>();
+            authDto = new ApiAuthDto
+            {
+                UserName = "admin",
+                Password = "sasser",
+            };
         }
 
         protected TContract GetQueryProvider<TContract>()

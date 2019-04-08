@@ -1,5 +1,8 @@
-﻿using System;
+﻿using RandevouApiCommunication.Authentication;
+using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace RandevouApiCommunication
@@ -14,6 +17,7 @@ namespace RandevouApiCommunication
             ApiQueriesIOCcontainer.Register<Friendships.IUserFriendshipQuery, Friendships.UserFriendshipQuery>();
             ApiQueriesIOCcontainer.Register<Messages.IMessagesQuery, Messages.MessagesQuery>();
             ApiQueriesIOCcontainer.Register<UsersFinder.IUserFinderQuery, UsersFinder.UserFinderQuery>();
+            ApiQueriesIOCcontainer.Register<Authentication.IAuthenticationQuery, Authentication.AuthenticationQuery>();
         }
 
         public static ApiCommunicationProvider GetInstance()
@@ -28,5 +32,6 @@ namespace RandevouApiCommunication
             => ApiQueriesIOCcontainer.Resolve<TConract>();
 
 
+       
     }
 }

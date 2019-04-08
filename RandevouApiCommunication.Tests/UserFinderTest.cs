@@ -27,7 +27,7 @@ namespace RandevouApiCommunication.Tests
                 Name = "userToFind"
             };
 
-            var result = ufq.FindUsers(searchDto);
+            var result = ufq.FindUsers(searchDto, authDto);
             Assert.True(result.Length >= 10);
         }
 
