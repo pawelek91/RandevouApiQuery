@@ -138,10 +138,13 @@ namespace RandevouApiCommunication
             if (auth == null)
                 return null;
 
-            var authQuery = ApiCommunicationProvider.GetInstance().GetQueryProvider<IAuthenticationQuery>();
+            var authQuery = GetQueryProvider<IAuthenticationQuery>();
             var authKey = authQuery.GetLoginAuthKey(auth.UserName, auth.Password);
             return new AuthenticationHeaderValue("Basic", authKey);
         }
+
+        protected T GetQueryProvider<T>()
+            => ApiCommunicationProvider.GetInstance().GetQueryProvider<T>();
 
         private void SetAuth(HttpClient client, AuthenticationHeaderValue auth = null)
         {

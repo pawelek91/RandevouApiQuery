@@ -1,0 +1,17 @@
+﻿<Properties StartupConfiguration="{4E781645-F307-4C71-AC3E-085B1025C743}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="RandevouApiCommunication.Tests/UserFinderTest.cs">
+    <Files>
+      <File FileName="RandevouApiCommunication.Tests/UserFinderTest.cs" Line="20" Column="9" />
+      <File FileName="RandevouApiCommunication.Tests/MessagesTest.cs" Line="11" Column="40" />
+      <File FileName="RandevouApiCommunication.Tests/UserFriendshipTest.cs" Line="27" Column="12" />
+      <File FileName="RandevouApiCommunication.Tests/UsersBasicTest.cs" Line="11" Column="9" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.RandevouApiCommunication.Tests PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
