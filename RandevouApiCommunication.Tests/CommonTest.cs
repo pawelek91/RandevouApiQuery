@@ -12,6 +12,8 @@ namespace RandevouApiCommunication.Tests
         protected IUsersQuery usersQueryProvider;
         protected ApiAuthDto authDto;
 
+        
+
         public CommonTest()
         {
             communicationProvider = ApiCommunicationProvider.GetInstance();
@@ -19,7 +21,7 @@ namespace RandevouApiCommunication.Tests
             authDto = new ApiAuthDto
             {
                 UserName = "admin",
-                Password = "sasser",
+                Password = "testowe",
             };
         }
 
@@ -40,7 +42,10 @@ namespace RandevouApiCommunication.Tests
                     Gender = 'F',
                     Name = name,
                 };
-                var userId = usersQueryProvider.CreateUser(dto);
+                var userId = usersQueryProvider.CreateUserWithLogin(
+                    new UserComplexDto{
+                            UserDto = dto,
+                            Password = authDto.Password,});
                 result.Add(userId);
 
             }

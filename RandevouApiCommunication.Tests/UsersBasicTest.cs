@@ -27,8 +27,14 @@ namespace RandevouApiCommunication.Tests
                 Gender = 'F',
                 Name = "NowyUserek" + Guid.NewGuid().ToString().Substring(0, 10),
             };
-            var result = queryProvider.CreateUser(dto);
+            var result = queryProvider.CreateUserWithLogin(new UserComplexDto{
+                UserDto = dto,
+                Password = authDto.Password,
+              });
+
             Assert.True(result > 0);
+            
+            authDto.UserName=dto.Name;
             
             var createdUser = queryProvider.GetUser(result, authDto);
             Assert.True(createdUser.Name.Equals(dto.Name, StringComparison.CurrentCultureIgnoreCase));
@@ -42,7 +48,10 @@ namespace RandevouApiCommunication.Tests
 
             #region Add and Update
             dto.Name = "NowyUserek" + Guid.NewGuid().ToString().Substring(0, 10);
-            result = queryProvider.CreateUser(dto);
+            authDto.UserName=dto.Name;
+            result = queryProvider.CreateUserWithLogin(new UserComplexDto{
+                UserDto = dto,
+                Password = authDto.Password});
             createdUser = queryProvider.GetUser(result, authDto);
             
             dto.Gender = 'M';
@@ -65,7 +74,11 @@ namespace RandevouApiCommunication.Tests
                 Gender = 'F',
                 Name = "NowyUserek" + Guid.NewGuid().ToString().Substring(0, 10),
             };
-            var userId = queryProvider.CreateUser(dto);
+            authDto.UserName = dto.Name;
+            var userId = queryProvider.CreateUserWithLogin(
+                                        new UserComplexDto{
+                                            UserDto = dto,
+                                            Password = authDto.Password,});
 
             var detailsDto = new UserDetailsDto()
             {
@@ -85,7 +98,6 @@ namespace RandevouApiCommunication.Tests
         {
             if (source == null || target == null)
                 throw new ArgumentOutOfRangeException("source or target is null");
-         
 
                 return
                     source.City == target.City && source.EyesColor == target.EyesColor && source.HairColor == target.EyesColor

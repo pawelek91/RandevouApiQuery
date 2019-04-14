@@ -29,7 +29,7 @@ namespace RandevouApiCommunication.Users
         
 
 
-        public int CreateUser(UsersDto dto)
+        private int CreateUser(UsersDto dto)
             => Post(Endpoints.PostUser, dto);
 
         public void DeleteUser(int id, ApiAuthDto authDto)
@@ -44,5 +44,13 @@ namespace RandevouApiCommunication.Users
 
         public void UpdateUserDetails(int userId, UserDetailsDto dto, ApiAuthDto authDto)
             => Update(Endpoints.PutUserDetails, dto, userId.ToString(),GetAuthentitaceUserKey(authDto));
+
+        public int CreateUserWithLogin(UserComplexDto dto)
+        {
+            var userId = CreateUser(dto.UserDto);
+            var authQuery = GetQueryProvider<IAuthenticationQuery>();
+            authQuery.RegisterUser(userId, dto.Password);
+            return userId;
+        }
     }
 }
