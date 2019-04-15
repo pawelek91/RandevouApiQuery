@@ -20,50 +20,58 @@ namespace RandevouApiCommunication.Tests
         [Fact]
         public void TestMessagesQueries()
         {
-            int[] users = GenerateUsers(3);
+            var users = GenerateUsers(3);
+
+            authDto.UserName = users.ElementAt(0).Value;
             messagesQueryProvider.CreateMessage(new MessageDto
             {
-                SenderId = users[0],
-                ReceiverId = users[1],
+                SenderId = users.ElementAt(0).Key,
+                ReceiverId = users.ElementAt(1).Key,
                 Content = "hi",
             },authDto);
 
             messagesQueryProvider.CreateMessage(new MessageDto
             {
-                SenderId = users[0],
-                ReceiverId = users[2],
+                SenderId = users.ElementAt(0).Key,
+                ReceiverId = users.ElementAt(2).Key,
                 Content = "hi",
             }, authDto);
             messagesQueryProvider.CreateMessage(new MessageDto
             {
-                SenderId = users[0],
-                ReceiverId = users[2],
+                SenderId = users.ElementAt(0).Key,
+                ReceiverId = users.ElementAt(2).Key,
                 Content = "sup",
             }, authDto);
 
-            var uniqueReceivers = messagesQueryProvider.GetLastMessages(users[0], authDto);
+            var uniqueReceivers = messagesQueryProvider.GetLastMessages(users.ElementAt(0).Key, authDto);
 
+            authDto.UserName = users.ElementAt(2).Value;
             messagesQueryProvider.CreateMessage(new MessageDto
             {
-                SenderId = users[2],
-                ReceiverId = users[0],
+                SenderId = users.ElementAt(2).Key,
+                ReceiverId = users.ElementAt(0).Key,
                 Content = "hi buddy",
             }, authDto);
 
             Assert.True(uniqueReceivers.Count() == 2);
 
+            authDto.UserName = users.ElementAt(0).Value;
             var getConversationDto = new RequestMessagesDto
             {
-                FirstUserId = users[0],
-                SecondUserId = users[2],
+                FirstUserId = users.ElementAt(0).Key,
+                SecondUserId = users.ElementAt(2).Key,
             };
 
             var conversation = messagesQueryProvider.GetConversation(getConversationDto, authDto).ToArray();
 
-            Assert.True(conversation.Count(x => x.SenderId == users[0]) == 2);
-            Assert.True(conversation.Count(x => x.SenderId == users[2]) == 1);
+            authDto.UserName = users.ElementAt(0).Value;
+            Assert.True(conversation.Count(x => x.SenderId == users.ElementAt(0).Key) == 2);
+
+            authDto.UserName = users.ElementAt(2).Value;
+            Assert.True(conversation.Count(x => x.SenderId == users.ElementAt(2).Key) == 1);
 
 
+            authDto.UserName = users.ElementAt(0).Value;
             var firstMessageMarkReadDto = new MessageMarkDto
             {
                 MessageId = conversation[0].MessageId.ToString(),
@@ -76,27 +84,34 @@ namespace RandevouApiCommunication.Tests
                 OwnerId = conversation[1].ReceiverId.ToString()
             };
 
-            Assert.True(!conversation.Any(x => x.IsRead));
+            Assert.True(conversation.All(x => !x.IsRead));
 
             messagesQueryProvider.MarkAsRead(firstMessageMarkReadDto, authDto);
 
+            authDto.UserName = conversation[0].ReceiverName;
             var wrongDto = new MessageMarkDto
             {
                 MessageId = conversation[0].MessageId.ToString(),
                 OwnerId = conversation[0].SenderId.ToString()
             };
 
+
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 messagesQueryProvider.MarkAsRead(wrongDto, authDto);
             });
 
+            authDto.UserName = conversation[1].ReceiverName;
             messagesQueryProvider.MarkAsRead(secondMessageMarkReadDto, authDto);
 
+
+            authDto.UserName = users.ElementAt(0).Value;
             conversation = messagesQueryProvider.GetConversation(getConversationDto, authDto).ToArray();
             Assert.True(conversation.Count(x => x.IsRead) == 2);
 
             messagesQueryProvider.MarkAsUnread(secondMessageMarkReadDto, authDto);
+
+            authDto.UserName = users.ElementAt(0).Value;
             conversation = messagesQueryProvider.GetConversation(getConversationDto, authDto).ToArray();
             Assert.True(conversation.Count(x => x.IsRead) == 1);
         }

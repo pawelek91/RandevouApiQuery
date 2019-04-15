@@ -80,8 +80,8 @@ namespace RandevouApiCommunication
             {
                 SetAuth(client, auth);
                 var json = AsJson(dto);
-                var postReult = client.PatchAsync(endpoint, json).Result;
-                if (!postReult.IsSuccessStatusCode)
+                var result = client.PatchAsync(endpoint, json).Result;
+                if (!result.IsSuccessStatusCode)
                     throw new HttpRequestException(string.Format("Query on {0} not succeeded", endpoint));
             }
         }
@@ -170,6 +170,10 @@ namespace RandevouApiCommunication
                 Content = iContent
             };
 
+            foreach(var h in client.DefaultRequestHeaders)
+            {
+                request.Headers.Add(h.Key, h.Value);
+            }
             HttpResponseMessage response = new HttpResponseMessage();
             try
             {

@@ -22,6 +22,7 @@ namespace RandevouApiCommunication.Tests
         public void TestUserFinding()
         {
             var users = GenerateUsers(10, "userToFind");
+            authDto.UserName = users.ElementAt(0).Value;
             var searchDto = new UsersFinderDto
             {
                 Name = "userToFind"

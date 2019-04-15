@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using RandevouApiCommunication.Friendships;
@@ -26,44 +27,58 @@ namespace RandevouApiCommunication.Tests
         {
             var users = GenerateUsers(4);
 
-            Assert.True(friendshipsQueryProvider.GetFriends(users[0], authDto).Length==0);
-            friendshipsQueryProvider.PostFriendshipInvitation(new FriendshipSendRequestDto() { FromUserId = users[0], ToUserId = users[1] }, authDto);
 
-            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[1], authDto).Length == 1);
-            Assert.True(friendshipsQueryProvider.GetFriends(users[0], authDto).Length == 0);
+            authDto.UserName = users.ElementAt(0).Value;
+            Assert.True(friendshipsQueryProvider.GetFriends(users.ElementAt(0).Key, authDto).Length==0);
+            friendshipsQueryProvider.PostFriendshipInvitation(new FriendshipSendRequestDto() { FromUserId = users.ElementAt(0).Key, ToUserId = users.ElementAt(1).Key }, authDto);
+            Assert.True(friendshipsQueryProvider.GetFriends(users.ElementAt(0).Key, authDto).Length == 0);
+
+            authDto.UserName = users.ElementAt(1).Value;
+            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users.ElementAt(1).Key, authDto).Length == 1);
+            
 
             Assert.ThrowsAny<Exception>(() => //user0 wyslal do user1, wiec to user1 musi zaakceptowac
             {
+                authDto.UserName = users.ElementAt(0).Value;
                 friendshipsQueryProvider.SetFriendshipStatusAction(
                     new UpdateFriendshipStatusDto()
                     {
-                        FromUserId = users[0],
-                        ToUserId = users[1],
+                        FromUserId = users.ElementAt(0).Key,
+                        ToUserId = users.ElementAt(1).Key,
                         Action = Accept
                     }, authDto);
             });
 
+            authDto.UserName = users.ElementAt(1).Value;
             friendshipsQueryProvider.SetFriendshipStatusAction(
                   new UpdateFriendshipStatusDto()
                   {
-                      FromUserId = users[1],
-                      ToUserId = users[0],
+                      FromUserId = users.ElementAt(1).Key,
+                      ToUserId = users.ElementAt(0).Key,
                       Action = Accept
                   }, authDto);
 
-            Assert.True(friendshipsQueryProvider.GetFriends(users[0], authDto).Length == 1);
-            Assert.True(friendshipsQueryProvider.GetFriends(users[1], authDto).Length == 1);
-            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[1], authDto).Length == 0);
+            authDto.UserName = users.ElementAt(0).Value;
+            Assert.True(friendshipsQueryProvider.GetFriends(users.ElementAt(0).Key, authDto).Length == 1);
 
-            friendshipsQueryProvider.PostFriendshipInvitation(new FriendshipSendRequestDto() { FromUserId = users[2], ToUserId = users[1] }, authDto);
-            friendshipsQueryProvider.PostFriendshipInvitation(new FriendshipSendRequestDto() { FromUserId = users[3], ToUserId = users[1] }, authDto);
-            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[1], authDto).Length == 2);
+            authDto.UserName = users.ElementAt(1).Value;
+            Assert.True(friendshipsQueryProvider.GetFriends(users.ElementAt(1).Key, authDto).Length == 1);
+            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users.ElementAt(1).Key, authDto).Length == 0);
+
+            authDto.UserName = users.ElementAt(2).Value;
+            friendshipsQueryProvider.PostFriendshipInvitation(new FriendshipSendRequestDto() { FromUserId = users.ElementAt(2).Key, ToUserId = users.ElementAt(1).Key }, authDto);
+
+            authDto.UserName = users.ElementAt(3).Value;
+            friendshipsQueryProvider.PostFriendshipInvitation(new FriendshipSendRequestDto() { FromUserId = users.ElementAt(3).Key, ToUserId = users.ElementAt(1).Key }, authDto);
+
+            authDto.UserName = users.ElementAt(1).Value;
+            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users.ElementAt(1).Key, authDto).Length == 2);
 
             friendshipsQueryProvider.SetFriendshipStatusAction(
                  new UpdateFriendshipStatusDto()
                  {
-                     FromUserId = users[1],
-                     ToUserId = users[2],
+                     FromUserId = users.ElementAt(1).Key,
+                     ToUserId = users.ElementAt(2).Key,
                      Action = Accept
                  }, authDto);
 
@@ -71,30 +86,42 @@ namespace RandevouApiCommunication.Tests
             friendshipsQueryProvider.SetFriendshipStatusAction(
                  new UpdateFriendshipStatusDto()
                  {
-                     FromUserId = users[1],
-                     ToUserId = users[3],
+                     FromUserId = users.ElementAt(1).Key,
+                     ToUserId = users.ElementAt(3).Key,
                      Action = Delete
                  }, authDto);
 
-            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[1], authDto).Length == 0);
-            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[2], authDto).Length == 0);
-            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users[3], authDto).Length == 0);
+            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users.ElementAt(1).Key, authDto).Length == 0);
 
-            Assert.True(friendshipsQueryProvider.GetFriends(users[1], authDto).Length == 2);
-            Assert.True(friendshipsQueryProvider.GetFriends(users[2], authDto).Length == 1);
-            Assert.True(friendshipsQueryProvider.GetFriends(users[3], authDto).Length == 0);
+            authDto.UserName = users.ElementAt(2).Value;
+            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users.ElementAt(2).Key, authDto).Length == 0);
+
+            authDto.UserName = users.ElementAt(3).Value;
+            Assert.True(friendshipsQueryProvider.GetFriendshipRequests(users.ElementAt(3).Key, authDto).Length == 0);
 
 
+            authDto.UserName = users.ElementAt(1).Value;
+            Assert.True(friendshipsQueryProvider.GetFriends(users.ElementAt(1).Key, authDto).Length == 2);
+
+            authDto.UserName = users.ElementAt(2).Value;
+            Assert.True(friendshipsQueryProvider.GetFriends(users.ElementAt(2).Key, authDto).Length == 1);
+
+            authDto.UserName = users.ElementAt(3).Value;
+            Assert.True(friendshipsQueryProvider.GetFriends(users.ElementAt(3).Key, authDto).Length == 0);
+
+            authDto.UserName = users.ElementAt(2).Value;
             friendshipsQueryProvider.SetFriendshipStatusAction(
            new UpdateFriendshipStatusDto()
            {
-               FromUserId = users[2],
-               ToUserId = users[1],
+               FromUserId = users.ElementAt(2).Key,
+               ToUserId = users.ElementAt(1).Key,
                Action = Delete
            }, authDto);
-            Assert.True(friendshipsQueryProvider.GetFriends(users[2], authDto).Length == 0);
+            Assert.True(friendshipsQueryProvider.GetFriends(users.ElementAt(2).Key, authDto).Length == 0);
 
-            Assert.True(friendshipsQueryProvider.GetFriends(users[1], authDto).Length == 1);
+
+            authDto.UserName = users.ElementAt(1).Value;
+            Assert.True(friendshipsQueryProvider.GetFriends(users.ElementAt(1).Key, authDto).Length == 1);
         }
 
       

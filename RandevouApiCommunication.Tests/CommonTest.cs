@@ -28,9 +28,9 @@ namespace RandevouApiCommunication.Tests
         protected TContract GetQueryProvider<TContract>()
             => communicationProvider.GetQueryProvider<TContract>();
 
-        protected int[] GenerateUsers(int count, string defaultName = "NowyUserek")
+        protected Dictionary<int, string> GenerateUsers(int count, string defaultName = "NowyUserek")
         {
-            List<int> result = new List<int>();
+            var result = new Dictionary<int, string>();
 
             for (int i=0;i< count;i++)
             {
@@ -46,10 +46,10 @@ namespace RandevouApiCommunication.Tests
                     new UserComplexDto{
                             UserDto = dto,
                             Password = authDto.Password,});
-                result.Add(userId);
+                result.Add(userId, dto.Name);
 
             }
-            return result.ToArray();
+            return result;
         }
     }
 }

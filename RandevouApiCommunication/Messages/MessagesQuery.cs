@@ -8,7 +8,7 @@ namespace RandevouApiCommunication.Messages
     internal class MessagesQuery : ApiQuery, IMessagesQuery
     {
         public int CreateMessage(MessageDto dto, ApiAuthDto authDto)
-        => Post<MessageDto>(Endpoints.Messages, dto);
+        => Post<MessageDto>(Endpoints.Messages, dto, GetAuthentitaceUserKey(authDto));
 
         public IEnumerable<MessageDto> GetConversation(RequestMessagesDto dto, ApiAuthDto authDto)
         => PostSpecific<IEnumerable<MessageDto>, RequestMessagesDto>

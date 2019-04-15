@@ -12,7 +12,12 @@
 
         public void RegisterUser(int userId, string password)
         {
-            throw new System.NotImplementedException();
+            Post<RegisterDto>(Endpoints.Register,
+                new RegisterDto
+                {
+                    UserId = userId,
+                    Password = password
+                });
         }
     }
 }
