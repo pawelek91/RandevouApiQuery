@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RandevouApiCommunication.Authentication;
+using RandevouApiCommunication.Exceptions;
 
 namespace RandevouApiCommunication
 {
@@ -82,7 +84,15 @@ namespace RandevouApiCommunication
                 var json = AsJson(dto);
                 var result = client.PatchAsync(endpoint, json).Result;
                 if (!result.IsSuccessStatusCode)
+                {
+                    if(result.StatusCode == System.Net.HttpStatusCode.Conflict)
+                    {
+                        throw new ResourceAccessDenied();
+                    }
                     throw new HttpRequestException(string.Format("Query on {0} not succeeded", endpoint));
+                }
+                
+                    
             }
         }
 
@@ -95,7 +105,7 @@ namespace RandevouApiCommunication
                 var json = AsJson(dto);
                 var result = client.PutAsync(endpoint, json).Result;
                 if(!result.IsSuccessStatusCode)
-                    throw new HttpRequestException(string.Format("Query on {0} not succeeded", endpoint));
+                    HandleNotSuccessfullStatusCode(result.StatusCode,endpoint);
             }
         }
 
@@ -107,7 +117,7 @@ namespace RandevouApiCommunication
                 SetAuth(client, auth);
                 var deleteResult = client.DeleteAsync(endpoint);
                 if (!deleteResult.Result.IsSuccessStatusCode)
-                    throw new HttpRequestException(string.Format("Query on {0} not succeeded", endpoint));
+                    HandleNotSuccessfullStatusCode(deleteResult.Result.StatusCode, endpoint);
             }
         }
 
@@ -125,7 +135,8 @@ namespace RandevouApiCommunication
                 }
 
                 if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException(string.Format("Query on {0} not succeeded", endpoint));
+                    HandleNotSuccessfullStatusCode(response.StatusCode, endpoint);
+                    
 
                 var json = await response.Content.ReadAsStringAsync();
                 var result = JsonConvert.DeserializeObject<T>(json);
@@ -156,6 +167,16 @@ namespace RandevouApiCommunication
         {
             return type.IsPrimitive
               || type.Equals(typeof(string));
+        }
+
+        private void HandleNotSuccessfullStatusCode(HttpStatusCode code, string endpopint)
+        {
+            if (code == System.Net.HttpStatusCode.Conflict)
+            {
+                throw new ResourceAccessDenied();
+            }
+
+            throw new HttpRequestException(string.Format("Query on {0} not succeeded", endpoint));
         }
     }
 

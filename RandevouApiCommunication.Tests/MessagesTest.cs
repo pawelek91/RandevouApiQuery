@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RandevouApiCommunication.Exceptions;
 using RandevouApiCommunication.Messages;
 using RandevouApiCommunication.Users;
 using Xunit;
@@ -96,7 +97,7 @@ namespace RandevouApiCommunication.Tests
             };
 
 
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            Assert.Throws<ResourceAccessDenied>(() =>
             {
                 messagesQueryProvider.MarkAsRead(wrongDto, authDto);
             });
