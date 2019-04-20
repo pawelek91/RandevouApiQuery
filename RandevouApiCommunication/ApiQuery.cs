@@ -176,6 +176,11 @@ namespace RandevouApiCommunication
                 throw new ResourceAccessDenied();
             }
 
+            if(code == HttpStatusCode.Unauthorized)
+            {
+                throw new Unathorized();
+            }
+
             throw new HttpRequestException(string.Format("Query on {0} not succeeded", endpoint));
         }
     }

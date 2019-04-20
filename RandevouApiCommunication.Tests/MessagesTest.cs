@@ -110,6 +110,7 @@ namespace RandevouApiCommunication.Tests
             conversation = messagesQueryProvider.GetConversation(getConversationDto, authDto).ToArray();
             Assert.True(conversation.Count(x => x.IsRead) == 2);
 
+            authDto.UserName = conversation[1].ReceiverName;
             messagesQueryProvider.MarkAsUnread(secondMessageMarkReadDto, authDto);
 
             authDto.UserName = users.ElementAt(0).Value;

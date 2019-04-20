@@ -9,4 +9,9 @@ namespace RandevouApiCommunication.Exceptions
     {
 
     }
+
+    public class Unathorized : Exception
+    {
+
+    }
 }
