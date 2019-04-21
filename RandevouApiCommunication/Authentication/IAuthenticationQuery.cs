@@ -8,5 +8,7 @@ namespace RandevouApiCommunication.Authentication
     {
         string GetLoginAuthKey(string username, string password);
         void RegisterUser(int userId, string password);
+
+        int GetIdentity(string apiKey);
     }
 }

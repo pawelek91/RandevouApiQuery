@@ -52,5 +52,25 @@ namespace RandevouApiCommunication.Users
             authQuery.RegisterUser(userId, dto.Password);
             return userId;
         }
+
+        public IEnumerable<UsersDto> GetUsersLists(string apiKey)
+         => Query<IEnumerable<UsersDto>>
+            (Endpoints.GetAllUsers, auth: CreateAuth(apiKey)).Result;
+
+        public UserDetailsDto GetUserDetails(int id, string apiKey)
+         => Query<UserDetailsDto>
+            (Endpoints.GetUser, id.ToString(), CreateAuth(apiKey)).Result;
+
+        public UsersDto GetUser(int id, string apiKey)
+             => Query<UsersDto>
+            (Endpoints.GetUser, id.ToString(), CreateAuth(apiKey)).Result;
+
+        public void DeleteUser(int id, string apiKey)
+        => Delete(Endpoints.DeleteUser, id, CreateAuth(apiKey));
+
+        public void UpdateUser(UsersDto dto, string apiKey)
+            => Update(Endpoints.PatchUser, dto, string.Empty, CreateAuth(apiKey));
+        public void UpdateUserDetails(int userId, UserDetailsDto dto, string apiKey)
+            => Update(Endpoints.PutUserDetails, dto, userId.ToString(), CreateAuth(apiKey));
     }
 }

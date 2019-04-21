@@ -1,0 +1,9 @@
+C:\Users\pawel\source\repos\RandevouApiCommunication\RandevouApiCommunication\obj\Release\netstandard2.0\RandevouApiCommunication.csprojAssemblyReference.cache
+C:\Users\pawel\source\repos\RandevouApiCommunication\RandevouApiCommunication\obj\Release\netstandard2.0\RandevouApiCommunication.csproj.CoreCompileInputs.cache
+C:\Users\pawel\source\repos\RandevouApiCommunication\RandevouApiCommunication\obj\Release\netstandard2.0\RandevouApiCommunication.AssemblyInfoInputs.cache
+C:\Users\pawel\source\repos\RandevouApiCommunication\RandevouApiCommunication\obj\Release\netstandard2.0\RandevouApiCommunication.AssemblyInfo.cs
+C:\Users\pawel\source\repos\RandevouApiCommunication\RandevouApiCommunication\bin\Release\netstandard2.0\RandevouApiCommunication.deps.json
+C:\Users\pawel\source\repos\RandevouApiCommunication\RandevouApiCommunication\bin\Release\netstandard2.0\RandevouApiCommunication.dll
+C:\Users\pawel\source\repos\RandevouApiCommunication\RandevouApiCommunication\bin\Release\netstandard2.0\RandevouApiCommunication.pdb
+C:\Users\pawel\source\repos\RandevouApiCommunication\RandevouApiCommunication\obj\Release\netstandard2.0\RandevouApiCommunication.dll
+C:\Users\pawel\source\repos\RandevouApiCommunication\RandevouApiCommunication\obj\Release\netstandard2.0\RandevouApiCommunication.pdb

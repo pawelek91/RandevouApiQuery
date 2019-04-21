@@ -115,32 +115,36 @@ namespace RandevouApiCommunication
             using (HttpClient client = new HttpClient())
             {
                 SetAuth(client, auth);
-                var deleteResult = client.DeleteAsync(endpoint);
-                if (!deleteResult.Result.IsSuccessStatusCode)
-                    HandleNotSuccessfullStatusCode(deleteResult.Result.StatusCode, endpoint);
+                var deleteResult = client.DeleteAsync(endpoint).Result;
+                if (!deleteResult.IsSuccessStatusCode)
+                    HandleNotSuccessfullStatusCode(deleteResult.StatusCode, endpoint);
             }
         }
 
-        protected async Task<T> Query<T>(string address, string id = null, AuthenticationHeaderValue auth = null) where T : class
+        protected async Task<T> Query<T>(string address, string id = null, AuthenticationHeaderValue auth = null)
         {
             using (HttpClient client = new HttpClient())
             {
                 SetAuth(client, auth);
                 string endpoint = BuildAddress(address, id);
-                var response = await client.GetAsync(endpoint);
+                var response = client.GetAsync(endpoint).Result;
 
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
-                    return null;
+                    return default(T);
                 }
 
                 if (!response.IsSuccessStatusCode)
                     HandleNotSuccessfullStatusCode(response.StatusCode, endpoint);
                     
-
+                var resultToParse = await response.Content.ReadAsStringAsync();
                 var json = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<T>(json);
-                return result;
+                if (IsSimpleType(typeof(T)))
+                {
+                    return resultToParse is T t ? t : throw new HttpRequestException("wrong response which could not be parsed");
+                }
+                else
+                    return JsonConvert.DeserializeObject<T>(resultToParse);
             }
         }
 
@@ -151,7 +155,12 @@ namespace RandevouApiCommunication
 
             var authQuery = GetQueryProvider<IAuthenticationQuery>();
             var authKey = authQuery.GetLoginAuthKey(auth.UserName, auth.Password);
-            return new AuthenticationHeaderValue("Basic", authKey);
+            return CreateAuth(authKey);
+        }
+
+        public AuthenticationHeaderValue CreateAuth(string key)
+        {
+            return new AuthenticationHeaderValue("Basic", key);
         }
 
         protected T GetQueryProvider<T>()

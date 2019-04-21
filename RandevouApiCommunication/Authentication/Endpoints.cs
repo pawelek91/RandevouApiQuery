@@ -8,5 +8,6 @@ namespace RandevouApiCommunication.Authentication
     {
         public const string Login = "/api/Login/Login";
         public const string Register = "/api/Login/Register";
+        public const string Identity = "/api/Login/Identity";
     }
 }

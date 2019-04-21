@@ -7,5 +7,9 @@ namespace RandevouApiCommunication.UsersFinder
         public int[] FindUsers(UsersFinderDto dto, ApiAuthDto authDto)
             => PostSpecific<int[], UsersFinderDto>
             (Endpoints.PostUserFind, dto, GetAuthentitaceUserKey(authDto));
+
+        public int[] FindUsers(UsersFinderDto dto, string apiKey)
+           => PostSpecific<int[], UsersFinderDto>
+            (Endpoints.PostUserFind, dto, CreateAuth(apiKey));
     }
 }
