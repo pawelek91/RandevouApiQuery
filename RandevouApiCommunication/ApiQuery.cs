@@ -64,7 +64,10 @@ namespace RandevouApiCommunication
                 var postReult = client.PostAsync(endpoint, json).Result;
 
                 if (!postReult.IsSuccessStatusCode)
-                    throw new HttpRequestException(string.Format("Query on {0} not succeeded", endpoint));
+                {
+                    HandleNotSuccessfullStatusCode(postReult.StatusCode, endpoint);
+                }
+                    
 
                 var resultToParse = postReult.Content.ReadAsStringAsync().Result;
 
