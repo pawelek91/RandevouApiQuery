@@ -7092,23 +7092,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\pawel\\.nuget\\packages\\": {},
+    "C:\\Users\\pawel.olejko\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pawel\\source\\repos\\RandevouApiCommunication\\RandevouApiCommunication\\RandevouApiCommunication.csproj",
+      "projectUniqueName": "C:\\Repo\\priv\\RandevouApiQuery\\RandevouApiCommunication\\RandevouApiCommunication.csproj",
       "projectName": "RandevouApiCommunication",
-      "projectPath": "C:\\Users\\pawel\\source\\repos\\RandevouApiCommunication\\RandevouApiCommunication\\RandevouApiCommunication.csproj",
-      "packagesPath": "C:\\Users\\pawel\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pawel\\source\\repos\\RandevouApiCommunication\\RandevouApiCommunication\\obj\\",
+      "projectPath": "C:\\Repo\\priv\\RandevouApiQuery\\RandevouApiCommunication\\RandevouApiCommunication.csproj",
+      "packagesPath": "C:\\Users\\pawel.olejko\\.nuget\\packages\\",
+      "outputPath": "C:\\Repo\\priv\\RandevouApiQuery\\RandevouApiCommunication\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\pawel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\pawel.olejko\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7116,6 +7116,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Users\\pawel.olejko\\Desktop\\moj_nugecik": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
