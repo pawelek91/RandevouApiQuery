@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using RandevouApiCommunication.Users;
 using RandevouApiCommunication.UsersFinder;
 using Xunit;
 
@@ -12,10 +14,11 @@ namespace RandevouApiCommunication.Tests
     public class UserFinderTest : CommonTest
     {
         IUserFinderQuery ufq;
-
+        IUsersQuery uq;
         public UserFinderTest()
         {
             ufq = GetQueryProvider<IUserFinderQuery>();
+            uq = GetQueryProvider<IUsersQuery>();
         }
 
         [Fact]
@@ -23,13 +26,17 @@ namespace RandevouApiCommunication.Tests
         {
             var users = GenerateUsers(10, "userToFind");
             authDto.UserName = users.ElementAt(0).Value;
-            var searchDto = new UsersFinderDto
+            var searchDto = new SearchQueryDto
             {
-                Name = "userToFind"
+                Name = "userToFind",
             };
 
             var result = ufq.FindUsers(searchDto, authDto);
             Assert.True(result.Length >= 10);
+
+
+            var usersDtso = uq.GetManyUsers(authDto, result);
+
         }
 
     }

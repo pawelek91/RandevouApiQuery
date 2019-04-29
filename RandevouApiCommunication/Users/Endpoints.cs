@@ -8,6 +8,7 @@ namespace RandevouApiCommunication.Users
     {
         public const string Users = "/api/Users";
         public const string GetAllUsers = Users;
+        public const string GetManyUsers = Users + "/List";
         public const string GetUser = Users +"/{id}";
         public const string PatchUser = Users;
         public const string DeleteUser = Users + "/{id}";

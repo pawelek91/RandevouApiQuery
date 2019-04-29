@@ -7,6 +7,8 @@ namespace RandevouApiCommunication.Users
 {
     public interface IUsersQuery
     {
+        IEnumerable<UsersDto> GetManyUsers(ApiAuthDto authDto, int[] ids);
+        IEnumerable<UsersDto> GetManyUsers(string apiKey, int[] ids);
         IEnumerable<UsersDto> GetUsersLists(ApiAuthDto authDto);
         IEnumerable<UsersDto> GetUsersLists(string apiKey);
         UserDetailsDto GetUserDetails(int id, ApiAuthDto authDto);

@@ -15,8 +15,12 @@ namespace RandevouApiCommunication.Users
         public IEnumerable<UsersDto> GetUsersLists(ApiAuthDto authDto)
             => Query<IEnumerable<UsersDto>>
             (Endpoints.GetAllUsers, auth: GetAuthentitaceUserKey(authDto)).Result;
-        
 
+        public IEnumerable<UsersDto> GetManyUsers(ApiAuthDto authDto, int[] ids)
+            => PostSpecific<IEnumerable<UsersDto>, int[]>(Endpoints.GetManyUsers, ids, GetAuthentitaceUserKey(authDto));
+
+        public IEnumerable<UsersDto> GetManyUsers(string apiKey, int[] ids)
+          => PostSpecific<IEnumerable<UsersDto>, int[]>(Endpoints.GetManyUsers, ids, CreateAuth(apiKey));
 
         public UserDetailsDto GetUserWithDetails(int id, ApiAuthDto authDto)
             => Query<UserDetailsDto>
@@ -28,6 +32,7 @@ namespace RandevouApiCommunication.Users
             (Endpoints.GetUser, id.ToString(), GetAuthentitaceUserKey(authDto)).Result;
         
 
+       
 
         private int CreateUser(UsersDto dto)
             => Post(Endpoints.PostUser, dto);

@@ -4,7 +4,7 @@ namespace RandevouApiCommunication.UsersFinder
 {
     public interface IUserFinderQuery
     {
-        int[] FindUsers(UsersFinderDto dto, ApiAuthDto authDto);
-        int[] FindUsers(UsersFinderDto dto, string apiKey);
+        int[] FindUsers(SearchQueryDto dto, ApiAuthDto authDto);
+        int[] FindUsers(SearchQueryDto dto, string apiKey);
     }
 }
