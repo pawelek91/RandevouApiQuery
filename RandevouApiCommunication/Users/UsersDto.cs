@@ -9,7 +9,13 @@ namespace RandevouApiCommunication.Users
         public int? Id { get; set; }
         public DateTime? BirthDate { get; set; }
         public string Name { get; set; }
-        public string DisplayName { get; set; }
+
+        private string displayName;
+        public string DisplayName
+        {
+            get => string.IsNullOrWhiteSpace(displayName) ? Name : displayName;
+            set => displayName = value;
+        }
         public char? Gender { get; set; }
     }
 
