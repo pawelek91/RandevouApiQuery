@@ -24,7 +24,7 @@ namespace RandevouApiCommunication.Users
 
         public UserDetailsDto GetUserWithDetails(int id, ApiAuthDto authDto)
             => Query<UserDetailsDto>
-            (Endpoints.GetUser, id.ToString(), GetAuthentitaceUserKey(authDto)).Result;
+            (Endpoints.GetUserDetails, id.ToString(), GetAuthentitaceUserKey(authDto)).Result;
         
 
         public UsersDto GetUser(int id, ApiAuthDto authDto)
@@ -64,7 +64,7 @@ namespace RandevouApiCommunication.Users
 
         public UserDetailsDto GetUserDetails(int id, string apiKey)
          => Query<UserDetailsDto>
-            (Endpoints.GetUser, id.ToString(), CreateAuth(apiKey)).Result;
+            (Endpoints.GetUserDetails, id.ToString(), CreateAuth(apiKey)).Result;
 
         public UsersDto GetUser(int id, string apiKey)
              => Query<UsersDto>
