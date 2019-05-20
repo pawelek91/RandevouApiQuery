@@ -21,7 +21,7 @@ namespace RandevouApiCommunication.Tests
             authDto = new ApiAuthDto
             {
                 UserName = "admin",
-                Password = "testowe",
+                Password = "sasser",
             };
         }
 

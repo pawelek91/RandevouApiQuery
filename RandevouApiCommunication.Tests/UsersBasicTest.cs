@@ -8,12 +8,11 @@ namespace RandevouApiCommunication.Tests
 {
     public class UsersBasicTets : CommonTest
     {
-        ApiCommunicationProvider communicationProvider;
-        IUsersQuery queryProvider;
+        readonly IUsersQuery _queryProvider;
         public UsersBasicTets()
         {
-            communicationProvider = ApiCommunicationProvider.GetInstance();
-            queryProvider = communicationProvider.GetQueryProvider<IUsersQuery>();
+            var communicationProvider = ApiCommunicationProvider.GetInstance();
+            _queryProvider = communicationProvider.GetQueryProvider<IUsersQuery>();
         }
         [Fact]
         public void UserApiBasicTest()
@@ -27,7 +26,7 @@ namespace RandevouApiCommunication.Tests
                 Gender = 'F',
                 Name = "NowyUserek" + Guid.NewGuid().ToString().Substring(0, 10),
             };
-            var result = queryProvider.CreateUserWithLogin(new UserComplexDto{
+            var result = _queryProvider.CreateUserWithLogin(new UserComplexDto{
                 UserDto = dto,
                 Password = authDto.Password,
               });
@@ -36,32 +35,32 @@ namespace RandevouApiCommunication.Tests
             
             authDto.UserName=dto.Name;
             
-            var createdUser = queryProvider.GetUser(result, authDto);
+            var createdUser = _queryProvider.GetUser(result, authDto);
             Assert.True(createdUser.Name.Equals(dto.Name, StringComparison.CurrentCultureIgnoreCase));
             #endregion
 
             #region Delete user
-            queryProvider.DeleteUser(createdUser.Id.Value, authDto);
-            var resp = queryProvider.GetUser(result, authDto);
+            _queryProvider.DeleteUser(createdUser.Id.Value, authDto);
+            var resp = _queryProvider.GetUser(result, authDto);
             Assert.Null(resp);
             #endregion
 
             #region Add and Update
             dto.Name = "NowyUserek" + Guid.NewGuid().ToString().Substring(0, 10);
             authDto.UserName=dto.Name;
-            result = queryProvider.CreateUserWithLogin(new UserComplexDto{
+            result = _queryProvider.CreateUserWithLogin(new UserComplexDto{
                 UserDto = dto,
                 Password = authDto.Password});
-            createdUser = queryProvider.GetUser(result, authDto);
+            createdUser = _queryProvider.GetUser(result, authDto);
             
             dto.Gender = 'M';
             dto.Id = result;
-            queryProvider.UpdateUser(dto, authDto);
-            var updatedUser = queryProvider.GetUser(result, authDto);
+            _queryProvider.UpdateUser(dto, authDto);
+            var updatedUser = _queryProvider.GetUser(result, authDto);
             Assert.True(updatedUser.Gender == dto.Gender);
             Assert.True(updatedUser.Id == result);
 
-            queryProvider.DeleteUser(updatedUser.Id.Value, authDto);
+            _queryProvider.DeleteUser(updatedUser.Id.Value, authDto);
             #endregion
         }
         [Fact]
@@ -75,7 +74,7 @@ namespace RandevouApiCommunication.Tests
                 Name = "NowyUserek" + Guid.NewGuid().ToString().Substring(0, 10),
             };
             authDto.UserName = dto.Name;
-            var userId = queryProvider.CreateUserWithLogin(
+            var userId = _queryProvider.CreateUserWithLogin(
                                         new UserComplexDto{
                                             UserDto = dto,
                                             Password = authDto.Password,});
@@ -88,9 +87,9 @@ namespace RandevouApiCommunication.Tests
                 Width = 10,
                 Tattos = 2,
             };
-            queryProvider.UpdateUserDetails(userId, detailsDto, authDto);
+            _queryProvider.UpdateUserDetails(userId, detailsDto, authDto);
 
-            var resultDto = queryProvider.GetUserDetails(userId, authDto);
+            var resultDto = _queryProvider.GetUserDetails(userId, authDto);
             Assert.True(Equals(resultDto,detailsDto));
         }
 

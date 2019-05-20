@@ -18,6 +18,7 @@ namespace RandevouApiCommunication
             ApiQueriesIOCcontainer.Register<Messages.IMessagesQuery, Messages.MessagesQuery>();
             ApiQueriesIOCcontainer.Register<UsersFinder.IUserFinderQuery, UsersFinder.UserFinderQuery>();
             ApiQueriesIOCcontainer.Register<Authentication.IAuthenticationQuery, Authentication.AuthenticationQuery>();
+            ApiQueriesIOCcontainer.Register<Users.DictionaryValues.IUsersDictionaryValuesQuery, Users.DictionaryValues.UsersDictionaryValuesQuery>();
         }
 
         public static ApiCommunicationProvider GetInstance()
