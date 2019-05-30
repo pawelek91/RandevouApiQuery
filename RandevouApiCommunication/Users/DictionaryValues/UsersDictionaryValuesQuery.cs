@@ -15,13 +15,13 @@ namespace RandevouApiCommunication.Users.DictionaryValues
 
 
         public DictionaryItemDto[] GetHairColors(string apiKey)
-            => Query<DictionaryItemDto[]>(Endpoints.HairColors, apiKey).Result;
+            => Query<DictionaryItemDto[]>(Endpoints.HairColors, auth: CreateAuth(apiKey)).Result;
 
         public DictionaryItemDto[] GetHairColors(ApiAuthDto authDto)
             => Query<DictionaryItemDto[]>(Endpoints.HairColors, auth: GetAuthentitaceUserKey(authDto)).Result;
 
         public DictionaryItemDto[] GetEyesColors(string apiKey)
-            => Query<DictionaryItemDto[]>(Endpoints.EyesColors, apiKey).Result;
+            => Query<DictionaryItemDto[]>(Endpoints.EyesColors, auth: CreateAuth(apiKey)).Result;
 
         public DictionaryItemDto[] GetEyesColors(ApiAuthDto authDto)
             => Query<DictionaryItemDto[]>(Endpoints.EyesColors, auth: GetAuthentitaceUserKey(authDto)).Result;

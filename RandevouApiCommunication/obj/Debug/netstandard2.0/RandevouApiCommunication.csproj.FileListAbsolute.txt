@@ -15,4 +15,3 @@ C:\Repo\priv\RandevouApiQuery\RandevouApiCommunication\obj\Debug\netstandard2.0\
 C:\Repo\priv\RandevouApiQuery\RandevouApiCommunication\obj\Debug\netstandard2.0\RandevouApiCommunication.AssemblyInfo.cs
 C:\Repo\priv\RandevouApiQuery\RandevouApiCommunication\obj\Debug\netstandard2.0\RandevouApiCommunication.dll
 C:\Repo\priv\RandevouApiQuery\RandevouApiCommunication\obj\Debug\netstandard2.0\RandevouApiCommunication.pdb
-C:\Repo\priv\RandevouApiQuery\RandevouApiCommunication\obj\Debug\netstandard2.0\RandevouApiCommunication.csprojAssemblyReference.cache
