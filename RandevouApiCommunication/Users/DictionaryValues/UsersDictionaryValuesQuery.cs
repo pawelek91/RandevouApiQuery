@@ -8,7 +8,7 @@ namespace RandevouApiCommunication.Users.DictionaryValues
     internal class UsersDictionaryValuesQuery : ApiQuery, IUsersDictionaryValuesQuery
     {
         public DictionaryItemDto[] GetInterests(string apiKey)
-            =>Query<DictionaryItemDto[]>(Endpoints.Interests, apiKey).Result;
+            =>Query<DictionaryItemDto[]>(Endpoints.Interests, auth: CreateAuth(apiKey)).Result;
 
         public DictionaryItemDto[] GetInterests(ApiAuthDto authDto)
             => Query<DictionaryItemDto[]>(Endpoints.Interests, auth:GetAuthentitaceUserKey(authDto)).Result;
