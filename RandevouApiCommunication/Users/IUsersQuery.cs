@@ -1,7 +1,9 @@
 ﻿using RandevouApiCommunication.Authentication;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RandevouApiCommunication.Users
 {
@@ -23,5 +25,8 @@ namespace RandevouApiCommunication.Users
         void UpdateUserDetails(int userId, UserDetailsDto dto, string apiKey);
 
         int CreateUserWithLogin(UserComplexDto dto);
+
+        void SetAvatar(int userId, Stream file, string contentType, ApiAuthDto authDto);
+        void SetAvatar(int userId, Stream file, string contentType, string apiKey);
     }
 }

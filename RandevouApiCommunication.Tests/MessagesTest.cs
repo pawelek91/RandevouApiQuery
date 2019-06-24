@@ -97,7 +97,7 @@ namespace RandevouApiCommunication.Tests
             };
 
 
-            Assert.Throws<ResourceAccessDenied>(() =>
+            Assert.Throws<Unathorized>(() =>
             {
                 messagesQueryProvider.MarkAsRead(wrongDto, authDto);
             });

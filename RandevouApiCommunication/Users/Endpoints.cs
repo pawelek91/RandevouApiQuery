@@ -16,5 +16,6 @@ namespace RandevouApiCommunication.Users
 
         public const string GetUserDetails = GetUser + "/Details";
         public const string PutUserDetails = PatchUser + "/{id}/Details";
+        public const string PutAvatar = PatchUser + "/{id}/Details/avatar";
     }
 }

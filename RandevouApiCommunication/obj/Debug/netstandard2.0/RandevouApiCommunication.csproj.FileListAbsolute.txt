@@ -6,7 +6,6 @@ C:\Users\pawel\source\repos\RandevouApiCommunication\RandevouApiCommunication\ob
 C:\Users\pawel\source\repos\RandevouApiCommunication\RandevouApiCommunication\obj\Debug\netstandard2.0\RandevouApiCommunication.AssemblyInfo.cs
 C:\Users\pawel\source\repos\RandevouApiCommunication\RandevouApiCommunication\obj\Debug\netstandard2.0\RandevouApiCommunication.dll
 C:\Users\pawel\source\repos\RandevouApiCommunication\RandevouApiCommunication\obj\Debug\netstandard2.0\RandevouApiCommunication.pdb
-C:\Users\pawel\source\repos\RandevouApiCommunication\RandevouApiCommunication\obj\Debug\netstandard2.0\RandevouApiCommunication.csprojAssemblyReference.cache
 C:\Repo\priv\RandevouApiQuery\RandevouApiCommunication\bin\Debug\netstandard2.0\RandevouApiCommunication.deps.json
 C:\Repo\priv\RandevouApiQuery\RandevouApiCommunication\bin\Debug\netstandard2.0\RandevouApiCommunication.dll
 C:\Repo\priv\RandevouApiQuery\RandevouApiCommunication\bin\Debug\netstandard2.0\RandevouApiCommunication.pdb
@@ -16,3 +15,4 @@ C:\Repo\priv\RandevouApiQuery\RandevouApiCommunication\obj\Debug\netstandard2.0\
 C:\Repo\priv\RandevouApiQuery\RandevouApiCommunication\obj\Debug\netstandard2.0\RandevouApiCommunication.dll
 C:\Repo\priv\RandevouApiQuery\RandevouApiCommunication\obj\Debug\netstandard2.0\RandevouApiCommunication.pdb
 C:\Repo\priv\RandevouApiQuery\RandevouApiCommunication\obj\Debug\netstandard2.0\RandevouApiCommunication.csprojAssemblyReference.cache
+C:\Users\pawel\source\repos\RandevouApiCommunication\RandevouApiCommunication\obj\Debug\netstandard2.0\RandevouApiCommunication.csprojAssemblyReference.cache

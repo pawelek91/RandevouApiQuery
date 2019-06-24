@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RandevouApiCommunication.Authentication;
@@ -77,5 +79,55 @@ namespace RandevouApiCommunication.Users
             => Update(Endpoints.PatchUser, dto, string.Empty, CreateAuth(apiKey));
         public void UpdateUserDetails(int userId, UserDetailsDto dto, string apiKey)
             => Update(Endpoints.PutUserDetails, dto, userId.ToString(), CreateAuth(apiKey));
+
+        public void SetAvatar(int userId, Stream stream, string contentType, string apiKey)
+        {
+          
+            string endpoint = BuildAddress(Endpoints.PutAvatar, userId.ToString());
+            stream.Seek(0, SeekOrigin.Begin);
+            using (var httpClient = new HttpClient())
+            {
+                var auth = CreateAuth(apiKey);
+                SetAuth(httpClient, auth);
+                using (var content = new MultipartFormDataContent())
+                {
+                    content.Add(new StreamContent(stream)
+                    {
+                        Headers =
+                    {
+                        ContentLength = stream.Length,
+                        ContentType = new MediaTypeHeaderValue(contentType)
+                    }
+                    }, "File", "FileImport");
+
+                    var result = httpClient.PutAsync(endpoint, content).Result;
+                }
+            }
+        }
+
+        public void SetAvatar(int userId, Stream file, string contentType, ApiAuthDto authDto)
+        {
+            string endpoint = BuildAddress(Endpoints.PutAvatar, userId.ToString());
+
+            using (var httpClient = new HttpClient())
+            {
+                SetAuth(httpClient, GetAuthentitaceUserKey(authDto));
+                using (var content = new MultipartFormDataContent())
+                {
+                    content.Add(new StreamContent(file)
+                    {
+                        Headers =
+                    {
+                        ContentLength = file.Length,
+                        ContentType = new MediaTypeHeaderValue(contentType)
+                    }
+                    }, "File", "FileImport");
+
+                    var result = httpClient.PutAsync(endpoint, content).Result;
+                }
+            }
+        }
+
+     
     }
 }
