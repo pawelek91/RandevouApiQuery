@@ -113,6 +113,7 @@ namespace RandevouApiCommunication
             }
         }
 
+
         protected void Delete(string address, int id, AuthenticationHeaderValue auth = null)
         {
             string endpoint = BuildAddress(address, id.ToString());
@@ -170,7 +171,7 @@ namespace RandevouApiCommunication
         protected T GetQueryProvider<T>()
             => ApiCommunicationProvider.GetInstance().GetQueryProvider<T>();
 
-        private void SetAuth(HttpClient client, AuthenticationHeaderValue auth = null)
+        protected void SetAuth(HttpClient client, AuthenticationHeaderValue auth = null)
         {
             if (auth != null)
                 client.DefaultRequestHeaders.Authorization = auth;

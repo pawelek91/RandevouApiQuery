@@ -28,6 +28,9 @@ namespace RandevouApiCommunication.Users
         public string City { get; set; }
         public int? Tattos { get; set; }
 
+        public byte[] AvatarImage { get; set; }
+        public string AvatarContentType { get; set; }
+
         #region dictionary
         public int? EyesColor { get; set; }
         public int? HairColor { get; set; }
