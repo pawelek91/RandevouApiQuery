@@ -30,5 +30,7 @@ namespace RandevouApiCommunication.Users
         void SetAvatar(int userId, Stream file, string contentType, string apiKey);
 
         IEnumerable<UserAvatarDto> GetUsersAvatars(IEnumerable<int> usersIds, string apiKey);
+
+        IEnumerable<UserAvatarDto> GetUsersAvatars(IEnumerable<int> usersIds, ApiAuthDto authDto);
     }
 }

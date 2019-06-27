@@ -80,6 +80,9 @@ namespace RandevouApiCommunication.Users
         public IEnumerable<UserAvatarDto> GetUsersAvatars(IEnumerable<int> usersIds, string apiKey)
             => PostSpecific<IEnumerable<UserAvatarDto>, IEnumerable<int>>(Endpoints.GetUsersAvatars, usersIds, CreateAuth(apiKey));
 
+        public IEnumerable<UserAvatarDto> GetUsersAvatars(IEnumerable<int> usersIds, ApiAuthDto authDto)
+    => PostSpecific<IEnumerable<UserAvatarDto>, IEnumerable<int>>(Endpoints.GetUsersAvatars, usersIds, GetAuthentitaceUserKey(authDto));
+
         public void SetAvatar(int userId, Stream stream, string contentType, string apiKey)
         {
 

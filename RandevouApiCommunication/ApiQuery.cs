@@ -79,6 +79,7 @@ namespace RandevouApiCommunication
                 else return FromJson<TResult>(resultToParse);
             }
         }
+
         protected void Update<T>(string address, T dto, string id = "", AuthenticationHeaderValue auth = null)
         {
             string endpoint = BuildAddress(address, id);

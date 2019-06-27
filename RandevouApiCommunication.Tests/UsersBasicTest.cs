@@ -121,6 +121,14 @@ namespace RandevouApiCommunication.Tests
 
         }
 
+        [Fact]
+        public void GetAvatars()
+        {
+            var users = GenerateUsers(5, "testAvatars");
+            var avatars = _queryProvider.GetUsersAvatars(users.Select(x => x.Key), authDto);
+            Assert.NotNull(avatars);
+        }
+
         static bool ByteArrayCompare(byte[] a1, byte[] a2)
         {
             if (a1.Length != a2.Length)
