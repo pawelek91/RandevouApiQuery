@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\pawel\\source\\repos\\RandevouApiCommunication\\RandevouApiCommunication\\RandevouApiCommunication.csproj": {}
+    "C:\\Repo\\priv\\RandevouApiQuery\\RandevouApiCommunication\\RandevouApiCommunication.csproj": {}
   },
   "projects": {
-    "C:\\Users\\pawel\\source\\repos\\RandevouApiCommunication\\RandevouApiCommunication\\RandevouApiCommunication.csproj": {
+    "C:\\Repo\\priv\\RandevouApiQuery\\RandevouApiCommunication\\RandevouApiCommunication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\pawel\\source\\repos\\RandevouApiCommunication\\RandevouApiCommunication\\RandevouApiCommunication.csproj",
+        "projectUniqueName": "C:\\Repo\\priv\\RandevouApiQuery\\RandevouApiCommunication\\RandevouApiCommunication.csproj",
         "projectName": "RandevouApiCommunication",
-        "projectPath": "C:\\Users\\pawel\\source\\repos\\RandevouApiCommunication\\RandevouApiCommunication\\RandevouApiCommunication.csproj",
-        "packagesPath": "C:\\Users\\pawel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\pawel\\source\\repos\\RandevouApiCommunication\\RandevouApiCommunication\\obj\\",
+        "projectPath": "C:\\Repo\\priv\\RandevouApiQuery\\RandevouApiCommunication\\RandevouApiCommunication.csproj",
+        "packagesPath": "C:\\Users\\pawel.olejko\\.nuget\\packages\\",
+        "outputPath": "C:\\Repo\\priv\\RandevouApiQuery\\RandevouApiCommunication\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\pawel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pawel.olejko\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -25,6 +25,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "\\\\files\\PUBLICZNY\\NuGet": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
