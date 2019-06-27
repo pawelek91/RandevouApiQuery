@@ -77,5 +77,8 @@ namespace RandevouApiCommunication.Users
             => Update(Endpoints.PatchUser, dto, string.Empty, CreateAuth(apiKey));
         public void UpdateUserDetails(int userId, UserDetailsDto dto, string apiKey)
             => Update(Endpoints.PutUserDetails, dto, userId.ToString(), CreateAuth(apiKey));
+
+        public IEnumerable<UserAvatarDto> GetUsersAvatars(IEnumerable<int> usersIds, string apiKey)
+            => PostSpecific<IEnumerable<UserAvatarDto>, IEnumerable<int>>(Endpoints.GetUsersAvatars, usersIds, CreateAuth(apiKey));
     }
 }

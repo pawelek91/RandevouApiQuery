@@ -23,5 +23,7 @@ namespace RandevouApiCommunication.Users
         void UpdateUserDetails(int userId, UserDetailsDto dto, string apiKey);
 
         int CreateUserWithLogin(UserComplexDto dto);
+
+        IEnumerable<UserAvatarDto> GetUsersAvatars(IEnumerable<int> usersIds, string apiKey);
     }
 }
