@@ -9,7 +9,7 @@ namespace RandevouApiCommunication
     {
         static readonly Dictionary<Type, Type> Container = new Dictionary<Type, Type>();
 
-        public static void Register<TContract, TImplementation>()
+        public static void Register<TContract, TImplementation>() where TImplementation: class, TContract
         {
             ConstructorInfo constructor = typeof(TImplementation).GetConstructors()[0];
             if (constructor.GetParameters().Length != 0)
